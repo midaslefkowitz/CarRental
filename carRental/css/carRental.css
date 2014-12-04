@@ -1,0 +1,91 @@
+h1.logo.ui-title{
+	margin: 0px;
+}
+
+.logo img {
+	width: 180px;
+}
+
+#carSlideshow {
+	border:1px solid #000;
+	width:100%
+	}
+	
+#carList img {
+	height:80px;
+}
+
+#carList h2, #carList p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#map-canvas {
+	height: 500px;
+}
+
+/* Styling for responsive browsecars page*/
+/* Basic styles */
+.carView .ui-body {
+    text-align: left;
+    border-color: #ddd;
+}
+.carView p {
+    color: #777;
+    line-height: 140%
+}
+/* Stack all blocks to start */
+.carView .ui-block-a,
+.carView .ui-block-b{
+    width: 100%;
+    float: none;
+}
+/* Collapsing borders */
+.carView > div + div .ui-body {
+    border-top-width: 0;
+}
+/* 1st breakpoint */
+@media all and (min-width: 42em) {
+    .carView {
+        overflow: hidden; /* Use this or a "clearfix" to give the container height */
+    }
+    .carView .ui-body {
+       min-height: 14em;
+    }
+    .carView .ui-block-b{
+      width: 100%;
+	  margin-top: 1em;
+    }
+    .carView .ui-block-b p{
+      font-size: .8em;
+    }
+    .carView > div + div .ui-body {
+        border-top-width: 1px;
+    }
+    .carView > div:first-child .ui-body {
+        border-bottom-width: 0;
+    }
+    .carView > div:last-child .ui-body {
+        border-left-width: 0;
+    }
+}
+/* 2nd breakpoint */
+@media all and (min-width: 55em) {
+    .carView .ui-body {
+       min-height: 18em;
+    }
+    .carView .ui-block-a{
+      float: left;
+      width: 49.95%;
+    }
+    .carView .ui-block-b {
+      float: left;
+      width: 49.95%;
+    }
+    .carView > div:first-child .ui-body {
+        border-bottom-width: 1px;
+    }
+    .carView > div + div .ui-body {
+        border-left-width: 0;
+    }
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<title>Yitz's Car Rental</title>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.1/jquery.mobile-1.4.1.min.css"/>
+	<link rel="stylesheet" href="css/carRental.css" />
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.1/jquery.mobile-1.4.1.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0GVJTEkK9SCt5LeALoB7Fy_YpqsEv0oA&sensor=true&region=IL"></script>
+	<script src='js/carRental.js'></script>
+	<script src='js/carSlideshow.js'></script>
+	<script src='js/gMap.js'></script>
+</head>
+<body>
+
+<!--Home Page-->
+<div data-role="page" id="home">
+	<div data-role="header">
+		<h1 class='logo'><img src='images/logo.png'></h1>
+	</div>
+	
+	<div role="main" class="ui-content" class='body'>
+		<div data-role="collapsible" data-mini="true">
+			<h4>Rent a Car</h4>
+			<p>Just signin, pick out a car, fill out the form and we'll get back to you today.</p>
+		</div>
+		
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#login" data-transition="slide">Login/Register</a></li>
+			<li><a href="#cars" data-transition="slide">Browse Our Cars</a></li>
+			<li><a href="#return" data-transition="slide">Return a Car</a></li>
+		</ul>
+	</div>
+	
+	<div data-role="footer" class='copyright' data-position="fixed">
+		<h5></h5>
+	</div>
+</div>
+ 
+
+<!--Login/Register Page-->
+<div data-role="page" id="login">
+	<div data-role="header">
+		<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-icon-notext" data-rel="back" data-transition="slide" data-direction="reverse"></a>
+		<h1>Login/Register</h1>
+		<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-right ui-btn-icon-notext" data-transition="slide" data-direction="reverse"></a>		
+	</div>
+	
+	<div div role="main" class="ui-content">
+		<form action="" id="form" method="post" data-ajax="false" data-clear-btn="true" onsubmit="return validateForm()">
+		
+			<div class='ui-field-contain'> 
+				<label for="fname">First name:</label>
+				<input type="text" name="fname" id="fname" required data-clear-btn="true" placeholder='First Name' pattern="[A-Za-z]{1,}" onchange="savefield('fname')">
+			</div>
+			
+			<div class='ui-field-contain'> 
+				<label for="lname">Last name:</label>
+				<input type="text" name="lname" id="lname" required data-clear-btn="true" placeholder='Last Name' pattern="[A-Za-z]{1,}" onchange="savefield('lname')">
+			</div>
+			
+			<div class='ui-field-contain'>
+				<label for="id">Teudat Zehut:</label>
+				<input type="text" name="id" id="id" required data-clear-btn="true" placeholder="327848549" pattern="[0-9]{8,9}" onchange="savefield('id')">
+			</div>
+			
+			<div class='ui-field-contain'>
+				<label for="email">Email Address:</label>
+				<input id="email" name="email" type="email" required data-clear-btn="true" placeholder="example@example.co.il" onchange="savefield('email')"/>
+			</div>
+			
+			<div class='ui-field-contain'> 
+				<label for="phone">Phone Number:</label>
+				<input id="phone" name="phone" type="tel" data-clear-btn="true" placeholder="Phone Number" onchange="savefield('phone')"/>
+			</div>
+
+			<div class='ui-field-contain'>
+				<label for="cell">Cell Phone:</label>
+				<input id="cell" name="cell" type="tel" data-clear-btn="true" placeholder="05x-xxx-xxxx" pattern="^05\d([-]{0,1})\d{3}([-]{0,1})\d{4}$" onchange="savefield('cell')"/>
+			</div>
+			
+			<div class='ui-field-contain'>
+				<label for="birthDate">Date of Birth:</label>
+				<input id="dob" name="dob" type="date" required pattern="(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d" data-clear-btn="true" placeholder="dd/mm/yyyy" onchange="savefield('dob')"/> 
+			</div>
+			
+			<div class='ui-field-contain'>
+				<label for="license">Drivers License Number</label>
+				<input id="license" name="license" type="text" required data-clear-btn="true" placeholder="8760832" pattern="[0-9]{7}" onchange="savefield('license')"/> 
+			</div>
+			
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><input type="submit" value="Submit" data-theme="a"></div>
+				<div class="ui-block-b"><input type="reset" value="Reset" data-theme="a" onclick="clearLoginForm()"></div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div data-role="footer" class='copyright' data-position="fixed">
+		<h5></h5>
+	</div>
+</div>
+
+ 
+<!--Choose a car-->
+<div data-role="page" id="cars">
+	<div data-role="header">
+		<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-icon-notext" data-rel="back" data-transition="slide" data-direction="reverse"></a>
+		<h1>Browse Our Cars</h1>
+		<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-right ui-btn-icon-notext" data-transition="slide" data-direction="reverse"></a>
+	</div>	
+	
+	<div div role="main" class="ui-content"  >
+		<div class="carView" class="ui-grid-a">
+			<!-- Car List -->
+			<div class="ui-block-a">
+				<div class="ui-body ui-body-d">
+					<ul data-role="listview" data-inset="true" id='carList'>
+					</ul>
+				</div>
+			</div>
+			<!-- Car Pics -->
+			<div class="ui-block-b">
+				<div class="ui-body ui-body-d" id='canvasWrapper'>
+					<canvas id="carSlideshow" ></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="footer" class='copyright' data-position="fixed">
+		<h5></h5>
+	</div>
+</div>
+
+
+<!--Calculate Distance and Cost-->
+<div data-role="page" id="distance">
+	<div data-role="header">
+		<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-icon-notext" data-rel="back" data-transition="slide" data-direction="reverse"></a>
+		<h1>Calculate Distance and Cost</h1>
+		<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-right ui-btn-icon-notext" data-transition="slide" data-direction="reverse"></a>
+	</div>
+	
+	<div div role="main" class="ui-content">
+		<div data-role="collapsible" data-mini="true">
+			<h4>Why we need this</h4>
+			<p>In order to get an accurate price we need to estimate how much you will be driving.</p>
+		</div>
+		
+		<div class='ui-field-contain'>
+			<label for="from">From</label>
+			<input id="from" type="text" placeholder="Where are you coming from?"/>
+		</div> 
+
+		<div class='ui-field-contain'>
+			<label for="to">To</label>
+			<input id="to" type="text" placeholder="Where are you going?"/>
+		</div>
+		
+		<fieldset class="ui-grid-a">
+			<div class="ui-block-a"><button id='getDist' class="ui-btn ui-corner-all" onclick="routeAndDist()">Submit</button></div>
+			<div class="ui-block-b"><button id='getDist' class="ui-btn ui-corner-all" onclick="clearMap()">Clear</button></div>
+		</fieldset>
+
+		<div id='output'></div>
+		<div id='cost'></div>
+		<div id="map-canvas"></div>
+	</div>
+
+	<div data-role="footer" class='copyright' data-position="fixed">
+		<h5></h5>
+	</div>
+</div>
+
+
+<!--Return a car-->
+<div data-role="page" id="return">
+	<div data-role="header">
+		<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-icon-notext" data-rel="back" data-transition="slide" data-direction="reverse"></a>
+		<h1>Return a Car</h1>
+		<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-right ui-btn-icon-notext" data-transition="slide" data-direction="reverse"></a>
+	</div>
+	
+	<div div role="main" class="ui-content">
+		<div class='ui-field-contain'>
+			<label for="carID">Enter the ID of the car you rented</label>
+			<input id="carID" type="text" placeholder="12-34-567"/>
+		</div>
+		
+		<div>
+			<button id='returnCar' class='ui-btn ui-corner-all' onclick='returnCar()'>Return</button>
+		</div>
+	</div>
+	
+	<div data-role="footer" class='copyright' data-position="fixed">
+		<h5></h5>
+	</div>
+</div>
+
+</body>
+</html>
